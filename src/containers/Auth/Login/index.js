@@ -6,6 +6,7 @@ import { Box, Grid, Button } from '@mui/material';
 import './style.scss';
 import google from './img/google.png';
 import facebook from './img/facebook.png';
+import { handleLogin } from '../../../services/userService'
 
 const style = {
   width: 400,
@@ -24,18 +25,21 @@ class Login extends Component {
       username: '',
       password: '',
       showPassword: false,
+      errMessage: '',
     };
   }
 
-  handleChangeUsename = (event) => {
+  handleChangeUsername = (event) => {
     this.setState({
       username: event.target.value,
+      errMessage: ''
     });
   };
 
   handleChangePassword = (event) => {
     this.setState({
       password: event.target.value,
+      errMessage: ''
     });
   };
 
@@ -45,8 +49,28 @@ class Login extends Component {
     })
   }
 
-  handleSubmit = () => {
-    console.log(this.state);
+  handleSubmit = async () => {
+    this.setState({
+      errMessage: ''
+    })
+    try {
+      let data = await handleLogin(this.state.username, this.state.password);
+      console.log(data)
+      if (data && data?.userData?.errCode !== 0) {
+        this.setState({
+          errMessage: data?.userData?.errMessage
+        })
+      }
+      if (data && data?.userData?.errCode === 0) {
+        this.props.userLoginSuccess(data.user)
+        console.log("Success")
+      }
+    } catch (error) {
+      this.setState({
+        errMessage: error?.response?.data?.message
+      })
+    }
+
   };
 
   render() {
@@ -70,7 +94,7 @@ class Login extends Component {
                   type='text'
                   name='username'
                   className='input-item'
-                  onChange={(event) => this.handleChangeUsename(event)}
+                  onChange={(event) => this.handleChangeUsername(event)}
                   value={this.state.username}
                 />
               </Grid>
@@ -86,6 +110,9 @@ class Login extends Component {
                   />
                   <i class={this.state.showPassword ? "fas fa-eye showPasswordIcon" : "fas fa-eye-slash showPasswordIcon"} onClick={() => this.showPass()} />
                 </div>
+              </Grid>
+              <Grid style={{ color: 'red' }}>
+                {this.state.errMessage}
               </Grid>
               <Button
                 size='large'
@@ -136,9 +163,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
-    adminLoginSuccess: (adminInfo) =>
-      dispatch(actions.adminLoginSuccess(adminInfo)),
-    adminLoginFail: () => dispatch(actions.adminLoginFail()),
+    userLoginFail: () => dispatch(actions.userLoginFail()),
+    userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 
