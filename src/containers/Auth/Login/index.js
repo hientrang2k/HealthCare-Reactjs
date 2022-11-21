@@ -6,7 +6,7 @@ import { Box, Grid, Button } from '@mui/material';
 import './style.scss';
 import google from './img/google.png';
 import facebook from './img/facebook.png';
-import { handleLogin } from '../../../services/userService'
+import { handleLogin } from '../../../services/userService';
 
 const style = {
   width: 400,
@@ -32,45 +32,44 @@ class Login extends Component {
   handleChangeUsername = (event) => {
     this.setState({
       username: event.target.value,
-      errMessage: ''
+      errMessage: '',
     });
   };
 
   handleChangePassword = (event) => {
     this.setState({
       password: event.target.value,
-      errMessage: ''
+      errMessage: '',
     });
   };
 
   showPass = () => {
     this.setState({
-      showPassword: !this.state.showPassword
-    })
-  }
+      showPassword: !this.state.showPassword,
+    });
+  };
 
   handleSubmit = async () => {
     this.setState({
-      errMessage: ''
-    })
+      errMessage: '',
+    });
     try {
       let data = await handleLogin(this.state.username, this.state.password);
-      console.log(data)
+      console.log(data);
       if (data && data?.userData?.errCode !== 0) {
         this.setState({
-          errMessage: data?.userData?.errMessage
-        })
+          errMessage: data?.userData?.errMessage,
+        });
       }
       if (data && data?.userData?.errCode === 0) {
-        this.props.userLoginSuccess(data.user)
-        console.log("Success")
+        this.props.userLoginSuccess(data.user);
+        console.log('Success');
       }
     } catch (error) {
       this.setState({
-        errMessage: error?.response?.data?.message
-      })
+        errMessage: error?.response?.data?.message,
+      });
     }
-
   };
 
   render() {
@@ -108,12 +107,17 @@ class Login extends Component {
                     onChange={(event) => this.handleChangePassword(event)}
                     value={this.state.password}
                   />
-                  <i class={this.state.showPassword ? "fas fa-eye showPasswordIcon" : "fas fa-eye-slash showPasswordIcon"} onClick={() => this.showPass()} />
+                  <i
+                    className={
+                      this.state.showPassword
+                        ? 'fas fa-eye showPasswordIcon'
+                        : 'fas fa-eye-slash showPasswordIcon'
+                    }
+                    onClick={() => this.showPass()}
+                  />
                 </div>
               </Grid>
-              <Grid style={{ color: 'red' }}>
-                {this.state.errMessage}
-              </Grid>
+              <Grid style={{ color: 'red' }}>{this.state.errMessage}</Grid>
               <Button
                 size='large'
                 className='login-button'
@@ -149,7 +153,7 @@ class Login extends Component {
             </Box>
           </Box>
         </div>
-      </div >
+      </div>
     );
   }
 }
@@ -164,7 +168,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
     userLoginFail: () => dispatch(actions.userLoginFail()),
-    userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
+    userLoginSuccess: (userInfo) =>
+      dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 
