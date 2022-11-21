@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './style.scss';
-import { getAllUser } from '../../../services/userService';
+import { getAllUser, addNewUser } from '../../../services/userService';
 import AddUserPopup from '../AddUserPopup';
 
 class UserManage extends Component {
@@ -14,6 +14,10 @@ class UserManage extends Component {
   }
 
   async componentDidMount() {
+    await this.handleGetAllUsers();
+  }
+
+  handleGetAllUsers = async () => {
     let response = await getAllUser();
     this.setState({ listUser: response?.allUsers });
   }
@@ -23,6 +27,20 @@ class UserManage extends Component {
       openAddPopup: !this.state.openAddPopup,
     });
   };
+
+  handleAddUser = async (values) => {
+    try {
+      let data = await addNewUser(values);
+      if (data && data.errCode === 0) {
+        await this.handleGetAllUsers();
+        this.setState({ openAddPopup: false })
+      } else {
+        alert(data.errMessage);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   render() {
     let { listUser, openAddPopup } = this.state;
@@ -76,7 +94,7 @@ class UserManage extends Component {
           </table>
         </div>
 
-        <AddUserPopup open={openAddPopup} toggle={this.handleClose} />
+        <AddUserPopup open={openAddPopup} toggle={this.handleClose} handleSubmit={this.handleAddUser} />
       </div>
     );
   }

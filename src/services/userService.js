@@ -12,8 +12,13 @@ const getUserById = (id) => {
     return axios.get(`/api/getUserById?id=${id}`)
 }
 
+const addNewUser = (user) => {
+    return axios.post('/api/create-user', user)
+}
+
 export {
     handleLogin,
     getAllUser,
-    getUserById
+    getUserById,
+    addNewUser
 }

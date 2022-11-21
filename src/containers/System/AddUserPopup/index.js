@@ -36,12 +36,21 @@ class AddUserPopup extends Component {
     this.setState({ ...newObject });
   };
 
-  handleSubmit = () => {
-    console.log(this.state);
+  resetState = () => {
+    this.setState({
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      gender: null,
+      role: null,
+      phoneNumber: '',
+    });
   };
 
   render() {
-    let { toggle, open } = this.props;
+    let { toggle, open, handleSubmit } = this.props;
     let {
       email,
       password,
@@ -210,8 +219,8 @@ class AddUserPopup extends Component {
           <Button
             color='primary'
             onClick={() => {
-              this.handleSubmit();
-              toggle();
+              handleSubmit(this.state);
+              this.resetState();
             }}
           >
             Add
