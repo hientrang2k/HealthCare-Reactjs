@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './style.scss';
-import { getAllUser, addNewUser } from '../../../services/userService';
+import { getAllUser, addNewUser, deleteUser } from '../../../services/userService';
 import AddUserPopup from '../AddUserPopup';
 
 class UserManage extends Component {
@@ -36,6 +36,19 @@ class UserManage extends Component {
         this.setState({ openAddPopup: false })
       } else {
         alert(data.errMessage);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  handleDeleteUser = async (user) => {
+    try {
+      let response = await deleteUser(user?.id);
+      if (response && response.errCode === 0) {
+        await this.handleGetAllUsers();
+      } else {
+        alert(response.errMessage);
       }
     } catch (e) {
       console.error(e);
@@ -84,7 +97,7 @@ class UserManage extends Component {
                       <button className='btn-edit'>
                         <i className='fas fa-edit'></i>
                       </button>
-                      <button className='btn-delete'>
+                      <button className='btn-delete' onClick={() => this.handleDeleteUser(user)}>
                         <i className='fas fa-trash'></i>
                       </button>
                     </td>
