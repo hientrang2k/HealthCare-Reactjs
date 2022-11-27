@@ -68,7 +68,7 @@ class AddUserPopup extends Component {
         toggle={() => {
           toggle();
         }}
-        className=''
+        className='modal-add-edit-user'
         size='md'
       >
         <ModalHeader
@@ -76,7 +76,7 @@ class AddUserPopup extends Component {
             toggle();
           }}
         >
-          Modal title
+          Add user
         </ModalHeader>
         <ModalBody>
           <Form className='form-add-new-user'>
@@ -217,6 +217,7 @@ class AddUserPopup extends Component {
         </ModalBody>
         <ModalFooter>
           <Button
+            className="btn-add"
             color='primary'
             onClick={() => {
               handleSubmit(this.state);
@@ -226,6 +227,7 @@ class AddUserPopup extends Component {
             Add
           </Button>{' '}
           <Button
+            className="btn-cancel"
             color='secondary'
             onClick={() => {
               toggle();

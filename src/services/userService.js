@@ -16,6 +16,10 @@ const addNewUser = (user) => {
     return axios.post('/api/create-user', user)
 }
 
+const editUser = (user) => {
+    return axios.put('/api/update-user', user)
+}
+
 const deleteUser = (id) => {
     return axios.delete(`/api/delete-user?id=${id}`)
 }
@@ -25,5 +29,6 @@ export {
     getAllUser,
     getUserById,
     addNewUser,
-    deleteUser
+    deleteUser,
+    editUser
 }
