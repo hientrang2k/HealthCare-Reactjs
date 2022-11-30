@@ -19,4 +19,6 @@ const color = [
   { value: "77bd1c", name: 'edit hover' },
   { value: "cf7b06", name: 'cancel' },
   { value: "f4fbfc", name: 'bgr blue light' },
+  { value: "#506c6a", name: "light text" },
+  { value: "#044440", name: "dark text" },
 ]

@@ -1,6 +1,39 @@
 .home-header {
     height: 112px;
-}
-
-.logo-header {
+    .header-logo {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 120px;
+        .header-bar {
+            font-size: 24px;
+            color: #068079;
+        }
+    }
+    .header-list {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .header-item {
+            .item-title {
+                font-size: 14px;
+                font-weight: bold;
+                color: #068079;
+            }
+            .item-content {
+                font-size: 12px;
+                color: #506c6a;
+            }
+        }
+    }
+    .header-support {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        color: #068079;
+        i {
+            color: #cf7e04;
+        }
+    }
 }
